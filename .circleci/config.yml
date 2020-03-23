@@ -7,12 +7,12 @@ workflows:
   build:
     jobs:
       - aws-ecr/build_and_push_image:
-        profile-name: circleci
-        repo: 259466632092.dkr.ecr.us-east-1.amazonaws.com/tester-repository
-        tag: '${CIRCLE_SHA1}' 
+          profile-name: circleci
+          repo: 259466632092.dkr.ecr.us-east-1.amazonaws.com/tester-repository
+          tag: '${CIRCLE_SHA1}' 
       - aws-ecs/deploy-service-update:
-        requires:
-          - aws-ecr/build_and_push_image
-        family: 'nginx-service'
-        cluster-name: 'tester'
-        container-image-name-updates: 'container=ui-tester,tag=${CIRCLE_SHA1}'
+          requires:
+            - aws-ecr/build_and_push_image
+          family: 'nginx-service'
+          cluster-name: 'tester'
+          container-image-name-updates: 'container=ui-tester,tag=${CIRCLE_SHA1}'
