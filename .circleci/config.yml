@@ -13,6 +13,6 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
-          family: 'first-run-task-definition'
+          family: 'nginx-service'
           cluster-name: 'tester'
           container-image-name-updates: 'container=ui-tester,tag=${CIRCLE_SHA1}'
