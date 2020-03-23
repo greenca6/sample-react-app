@@ -1,6 +1,8 @@
 version: 2.1
 orbs:
   node: circleci/node@1.1.6
+  aws-ecr: circleci/aws-ecr@6.7.1
+  aws-ecs: circleci/aws-ecs@1.1.0
 
 jobs:
   build:
@@ -16,4 +18,15 @@ jobs:
 workflows:
   build:
     jobs:
-      - build
+      - aws-ecr/build_and_push_image:
+        dockerfile: Dockerfile
+        path: .
+        profile-name: circleci
+        repo: 259466632092.dkr.ecr.us-east-1.amazonaws.com/tester-repository
+        tag: '${CIRCLE_SHA1}' 
+      - aws-ecs/deploy-service-update:
+        requires:
+          - aws-ecr/build_and_push_image
+        family: nginx-service
+        cluster-name: tester
+        container-image-name-updates: 'container=ui-tester,tag=${CIRCLE_SHA1}'
