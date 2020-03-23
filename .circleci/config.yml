@@ -8,8 +8,8 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           profile-name: circleci
-          repo: 259466632092.dkr.ecr.us-east-1.amazonaws.com/tester-repository
-          tag: '${CIRCLE_SHA1}' 
+          repo: tester-repository
+          tag: '${CIRCLE_SHA1}'
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
