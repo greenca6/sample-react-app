@@ -1,19 +1,7 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
   aws-ecr: circleci/aws-ecr@6.7.1
   aws-ecs: circleci/aws-ecs@1.1.0
-
-jobs:
-  build:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm build
 
 workflows:
   build:
